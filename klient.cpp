@@ -8,8 +8,8 @@ void klient::run()
     QHostAddress adres;
     adres.setAddress("127.0.0.1");
     soket = new QTcpSocket();
-    connect(soket, SIGNAL(connected()), this, SLOT(polaczony()));
-    connect(soket, SIGNAL(readyRead()), this, SLOT(czytaj_soket()));
+    connect(soket, SIGNAL(connected()), this, SLOT(polaczony()), Qt::DirectConnection);
+    connect(soket, SIGNAL(readyRead()), this, SLOT(czytaj_soket()),  Qt::DirectConnection);
     soket->connectToHost(adres,7557);
     exec();
 }
@@ -21,7 +21,7 @@ void klient::polaczony()
 
 void klient::czytaj_soket()
 {
-    QTcpSocket* soket = (QTcpSocket*)QObject::sender();
+
     QString data;
     char* test;
     test=new char[soket->bytesAvailable()];
